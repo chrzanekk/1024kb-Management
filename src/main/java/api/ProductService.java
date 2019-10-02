@@ -10,9 +10,9 @@ import java.util.List;
 public interface ProductService {
     List<Product> getAllProducts();
     Integer getProductQuantity();
-    Product getProductName(String productName);
-    boolean isProductCountMoreThanZero(String productName);
-    boolean isProductExist(String productName);
-    boolean isProductExist(Long productId);
+    Product getProductByProductName(String productName);
+    boolean isProductOnWarehouse(String productName);
+    boolean isProductExistByName(String productName);
+    boolean isProductExistById(Long productId);
 
 }

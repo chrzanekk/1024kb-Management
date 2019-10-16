@@ -5,10 +5,7 @@ import entity.Product;
 import entity.ProductParser;
 import utils.FileUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,4 +39,32 @@ public class ProductDaoImpl implements ProductDao {
 
         return products;
     }
+
+    public void saveProducts(List<Product> products) throws FileNotFoundException {
+        FileUtils.clearFile(fileName);
+        PrintWriter printWriter = new PrintWriter(new FileOutputStream(fileName,true));
+        for (Product product : products) {
+            printWriter.write(product.toString() + "\n") ;
+        }
+        printWriter.close();
+    }
+
+    public void saveProduct(Product product) throws IOException {
+        List<Product> products = getAllProducts();
+        products.add(product);
+        saveProducts(products);
+    }
+
+    public Product getProductById(Long productId) throws IOException {
+        List<Product> products = getAllProducts();
+        for (Product product : products) {
+            boolean isFoundProduct = product.getId().equals(productId);
+            if (isFoundProduct) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+
 }

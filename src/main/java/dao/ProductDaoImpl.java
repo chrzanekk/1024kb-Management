@@ -66,5 +66,36 @@ public class ProductDaoImpl implements ProductDao {
         return null;
     }
 
+    public Product getProductByProductName(String productName) throws IOException {
+        List<Product> products = getAllProducts();
+        for (Product product : products) {
+            boolean isFoundProduct = product.getProductName().equals(productName);
+            if (isFoundProduct) {
+                return product;
+            }
+        }
+        return null;
+    }
 
+    public void removeProductById(Long productId) throws IOException {
+        List<Product> products = getAllProducts();
+        for (int i =0; i<products.size(); i++) {
+            boolean isFoundProduct = products.get(i).getId().equals(productId);
+            if (isFoundProduct) {
+                products.remove(i);
+            }
+        }
+        saveProducts(products);
+    }
+
+    public void removeProductByName(Long productName) throws IOException {
+        List<Product> products = getAllProducts();
+        for (int i =0; i<products.size(); i++) {
+            boolean isFoundProduct = products.get(i).getId().equals(productName);
+            if (isFoundProduct) {
+                products.remove(i);
+            }
+        }
+        saveProducts(products);
+    }
 }

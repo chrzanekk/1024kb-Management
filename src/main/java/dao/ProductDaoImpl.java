@@ -88,10 +88,10 @@ public class ProductDaoImpl implements ProductDao {
         saveProducts(products);
     }
 
-    public void removeProductByName(Long productName) throws IOException {
+    public void removeProductByName(String productName) throws IOException {
         List<Product> products = getAllProducts();
         for (int i =0; i<products.size(); i++) {
-            boolean isFoundProduct = products.get(i).getId().equals(productName);
+            boolean isFoundProduct = products.get(i).getProductName().equals(productName);
             if (isFoundProduct) {
                 products.remove(i);
             }

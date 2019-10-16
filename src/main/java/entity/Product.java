@@ -4,6 +4,9 @@ package entity;
  * Created by chrzanekk on 28.09.2019
  */
 public class Product {
+
+    public final static String PRODUCT_SEPARATOR = "#";
+
     private Long id;
     private String productName;
     private Float price;

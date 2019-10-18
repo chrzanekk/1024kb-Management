@@ -1,8 +1,15 @@
 package service;
 
+import api.UserDao;
 import api.UserService;
+import dao.UserDaoImpl;
 import entity.User;
+import exceptions.UserLoginAlreadyExistException;
+import exceptions.UserShortLengthException;
+import exceptions.UserShortLengthPasswordException;
+import validator.UserValidator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,30 +18,33 @@ import java.util.List;
  */
 public class UserServiceImpl implements UserService {
 
-    List<User> users;
+    private static UserServiceImpl instance = null;
+    private UserDao userDao = UserDaoImpl.getInstance();
+    private UserValidator userValidator = UserValidator.getInstance();
 
-    public UserServiceImpl() {
-        this.users = new ArrayList<User>();
-    }
-    public UserServiceImpl(List<User> users) {
-        this.users = users;
-    }
+    private UserServiceImpl() {
 
-    public List<User> getAllUsers() {
-        return users;
     }
 
-    public void addUser(User user) {
-        users.add(user);
-    }
-
-    public void removeUserById(Long userId) {
-        for (int i =0; i<users.size(); i++) {
-            User userFromList = users.get(i);
-            if (userFromList.getId() == userId) {
-                users.remove(i);
-                break;
-            }
+    public static UserServiceImpl getInstance() {
+        if (instance == null) {
+            instance = new UserServiceImpl();
         }
+        return instance;
+    }
+
+
+    public List<User> getAllUsers() throws IOException {
+        return userDao.getAllUsers();
+    }
+
+    public void addUser(User user) throws IOException, UserShortLengthException, UserShortLengthPasswordException, UserLoginAlreadyExistException {
+        if (userValidator.isValidate(user)) {
+            userDao.saveUser(user);
+        }
+    }
+
+    public void removeUserById(Long userId) throws IOException{
+        userDao.removeUserById(userId);
     }
 }

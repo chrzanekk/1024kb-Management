@@ -14,12 +14,26 @@ import java.util.List;
  */
 public class UserDaoImpl implements UserDao {
 
-    private final String fileName;
+    private static final String fileName = "user.data";
+    private static UserDaoImpl instance = null;
 
-    public UserDaoImpl(String fileName) throws IOException {
-        this.fileName = fileName;
-        FileUtils.createNewFile(fileName);
+    private UserDaoImpl() {
+        try {
+            FileUtils.createNewFile(fileName);
+        }
+        catch (IOException e) {
+            System.out.println("Error in file patch.");
+            System.exit(-1);
+        }
     }
+
+    public static UserDaoImpl getInstance() {
+        if (instance == null) {
+            instance = new UserDaoImpl();
+        }
+        return instance;
+    }
+
 
     public List<User> getAllUsers() throws IOException{
         List<User> users = new ArrayList<User>();
@@ -95,5 +109,7 @@ public class UserDaoImpl implements UserDao {
         }
         saveUsers(users);
     }
+
+
 
 }

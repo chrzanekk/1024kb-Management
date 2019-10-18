@@ -18,4 +18,6 @@ public interface UserDao {
     User getUserByLogin(String login) throws IOException;
     User getUserById(Long userId) throws IOException;
 
+
+
 }
